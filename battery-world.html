@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Battery World – Wagholi | Power Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0a0b;
+    --surface: #111114;
+    --card: #16161a;
+    --border: #2a2a30;
+    --yellow: #f5c518;
+    --orange: #ff6b00;
+    --red: #e63030;
+    --text: #f0f0f0;
+    --muted: #7a7a88;
+    --glow: rgba(245,197,24,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 40px;
+    background: rgba(10,10,11,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-icon {
+    width: 38px; height: 38px;
+    background: var(--yellow);
+    display: flex; align-items: center; justify-content: center;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+
+  .logo-icon svg { width: 20px; height: 20px; }
+
+  .logo-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+    color: var(--text);
+    text-transform: uppercase;
+  }
+
+  .logo-text span { color: var(--yellow); }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--yellow); }
+
+  .nav-cta {
+    background: var(--yellow);
+    color: #0a0a0b;
+    border: none;
+    padding: 10px 22px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.1s;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+
+  .nav-cta:hover { background: #ffd740; transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 40px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 50%, rgba(255,107,0,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 20% 30%, rgba(245,197,24,0.05) 0%, transparent 60%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(245,197,24,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,197,24,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(245,197,24,0.1);
+    border: 1px solid rgba(245,197,24,0.3);
+    color: var(--yellow);
+    padding: 6px 14px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    width: fit-content;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--yellow);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  .hero h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .hero h1 .line2 {
+    color: var(--yellow);
+    display: block;
+    -webkit-text-stroke: 2px var(--yellow);
+    color: transparent;
+  }
+
+  .hero h1 .line3 {
+    display: block;
+    font-size: clamp(2rem, 5vw, 4.5rem);
+    color: var(--muted);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-sub {
+    margin-top: 28px;
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.7;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--yellow);
+    color: #0a0a0b;
+    padding: 14px 28px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .btn-primary:hover { background: #ffd740; transform: translateY(-2px); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    color: var(--text);
+    padding: 13px 28px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--yellow); color: var(--yellow); }
+
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+
+  .stat-item {}
+  .stat-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--yellow);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── TICKER ── */
+  .ticker {
+    background: var(--yellow);
+    padding: 12px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    display: inline-flex;
+    animation: ticker 25s linear infinite;
+  }
+
+  .ticker-item {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #0a0a0b;
+    padding: 0 30px;
+  }
+
+  .ticker-sep { color: rgba(0,0,0,0.3); }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 90px 40px; }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 16px;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 28px; height: 2px;
+    background: var(--yellow);
+  }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    text-transform: uppercase;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  /* ── SERVICES ── */
+  .services { background: var(--surface); }
+
+  .services-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 56px;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 2px;
+  }
+
+  .service-card {
+    background: var(--card);
+    padding: 36px 28px;
+    border: 1px solid var(--border);
+    transition: border-color 0.3s, transform 0.3s;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--yellow), var(--orange));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .service-card:hover { border-color: rgba(245,197,24,0.4); transform: translateY(-4px); }
+  .service-card:hover::after { transform: scaleX(1); }
+
+  .service-icon {
+    width: 52px; height: 52px;
+    background: rgba(245,197,24,0.08);
+    border: 1px solid rgba(245,197,24,0.2);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+  }
+
+  .service-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 10px;
+  }
+
+  .service-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+  /* ── BRANDS ── */
+  .brands { background: var(--bg); }
+
+  .brands-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .brands-row {
+    display: flex;
+    gap: 2px;
+    flex-wrap: wrap;
+  }
+
+  .brand-card {
+    flex: 1;
+    min-width: 180px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 36px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    transition: border-color 0.3s, background 0.3s;
+    cursor: default;
+  }
+
+  .brand-card:hover { border-color: rgba(245,197,24,0.4); background: rgba(245,197,24,0.03); }
+
+  .brand-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.8rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .brand-logo.exide { color: #e63030; }
+  .brand-logo.luminous { color: #2196f3; }
+  .brand-logo.livfast { color: var(--orange); }
+
+  .brand-tag {
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* ── WHY US ── */
+  .why { background: var(--surface); position: relative; overflow: hidden; }
+
+  .why::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(245,197,24,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .why-features {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    margin-top: 36px;
+  }
+
+  .why-feature {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .why-feature:last-child { border-bottom: none; }
+
+  .feature-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 2rem;
+    color: rgba(245,197,24,0.2);
+    line-height: 1;
+    min-width: 40px;
+  }
+
+  .feature-content h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+  }
+
+  .feature-content p { font-size: 0.88rem; color: var(--muted); }
+
+  .why-visual {
+    position: relative;
+  }
+
+  .why-big-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 14vw;
+    line-height: 1;
+    color: var(--card);
+    position: absolute;
+    top: -20px; right: -20px;
+    pointer-events: none;
+    z-index: 0;
+    -webkit-text-stroke: 1px var(--border);
+  }
+
+  .info-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .info-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 24px 28px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .info-card-icon {
+    font-size: 1.8rem;
+    min-width: 40px;
+    text-align: center;
+  }
+
+  .info-card-text {}
+  .info-card-text strong {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text);
+  }
+  .info-card-text span { font-size: 0.85rem; color: var(--muted); }
+
+  .open-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(76,175,80,0.12);
+    border: 1px solid rgba(76,175,80,0.3);
+    color: #4caf50;
+    padding: 4px 10px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-left: 10px;
+  }
+
+  /* ── CONTACT ── */
+  .contact { background: var(--bg); }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 60px;
+    margin-top: 48px;
+  }
+
+  .contact-item {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    padding: 24px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    margin-bottom: 16px;
+    transition: border-color 0.3s;
+  }
+
+  .contact-item:hover { border-color: rgba(245,197,24,0.4); }
+
+  .contact-icon {
+    width: 44px; height: 44px;
+    background: rgba(245,197,24,0.1);
+    border: 1px solid rgba(245,197,24,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .contact-info strong {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .contact-info a, .contact-info span {
+    color: var(--text);
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .contact-info a:hover { color: var(--yellow); }
+
+  .map-placeholder {
+    background: var(--card);
+    border: 1px solid var(--border);
+    height: 100%;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .map-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(245,197,24,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,197,24,0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+
+  .map-pin {
+    width: 60px; height: 60px;
+    background: var(--yellow);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    position: relative;
+    z-index: 1;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .map-address {
+    position: relative;
+    z-index: 1;
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .map-address strong {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--yellow);
+    margin-bottom: 8px;
+  }
+
+  .directions-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--yellow);
+    color: #0a0a0b;
+    padding: 11px 22px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    transition: background 0.2s;
+    position: relative;
+    z-index: 1;
+  }
+
+  .directions-btn:hover { background: #ffd740; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 36px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .footer-logo .logo-text { font-size: 1.2rem; }
+
+  .footer-copy {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .footer-links a {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--yellow); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 100px 20px 60px; }
+    section { padding: 60px 20px; }
+    .why-grid { grid-template-columns: 1fr; gap: 36px; }
+    .why-big-num { display: none; }
+    .contact-grid { grid-template-columns: 1fr; gap: 36px; }
+    .hero-stats { gap: 24px; flex-wrap: wrap; }
+    footer { flex-direction: column; text-align: center; }
+    .footer-links { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0b" stroke-width="2.5" stroke-linecap="round">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+      </svg>
+    </div>
+    <div class="logo-text">Battery <span>World</span></div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#brands">Brands</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="tel:+91" class="nav-cta">📞 Call Now</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-tag">⚡ Wagholi's Power Specialists</div>
+
+  <h1>
+    Power<br/>
+    <span class="line2">Uninterrupted</span>
+    <span class="line3">Battery · Inverter · UPS · Solar</span>
+  </h1>
+
+  <p class="hero-sub">
+    All types of batteries, inverters, UPS systems, lift backups, car batteries — sales, installation & service. Your one-stop power solution shop in Wagholi.
+  </p>
+
+  <div class="hero-actions">
+    <a href="#services" class="btn-primary">⚡ Our Services</a>
+    <a href="#contact" class="btn-secondary">📍 Find Us</a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">3+</div>
+      <div class="stat-label">Premium Brands</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">6</div>
+      <div class="stat-label">Services Offered</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">11.5</div>
+      <div class="stat-label">Hours Open Daily</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">24h</div>
+      <div class="stat-label">Emergency Contact</div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">Batteries <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">Inverters <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">UPS Systems <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">Lift Backup <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">Car Batteries <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">Solar Energy <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">Service & Repair <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">Exide ◆ Luminous ◆ LivFast <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">Batteries <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">Inverters <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">UPS Systems <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">Lift Backup <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">Car Batteries <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">Solar Energy <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">Service & Repair <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">Exide ◆ Luminous ◆ LivFast <span class="ticker-sep">◆</span></span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-header">
+    <div>
+      <div class="section-label">What We Do</div>
+      <h2 class="section-title">Our Services</h2>
+    </div>
+    <p style="max-width:320px;color:var(--muted);font-size:0.9rem;">Complete power backup solutions — from homes and offices to vehicles and commercial lifts.</p>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🔋</div>
+      <h3>Batteries</h3>
+      <p>All types of batteries for home, industrial, and commercial use. Best brands, best prices.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">⚡</div>
+      <h3>Inverters</h3>
+      <p>Reliable inverter solutions for homes and offices with seamless power switchover.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🖥️</div>
+      <h3>UPS Systems</h3>
+      <p>Protect your devices with uninterruptible power supplies for computers and equipment.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏢</div>
+      <h3>Lift Backup</h3>
+      <p>Dedicated power backup systems for elevators and lift installations in buildings.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🚗</div>
+      <h3>Car Batteries</h3>
+      <p>Car, bike, and vehicle battery sales and replacement with quick on-spot service.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">☀️</div>
+      <h3>Solar Energy</h3>
+      <p>Solar panel systems and solar power solutions for clean, renewable energy at home.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BRANDS -->
+<section class="brands" id="brands">
+  <div class="brands-title-row">
+    <div>
+      <div class="section-label">Trusted Partners</div>
+      <h2 class="section-title">Brands We Carry</h2>
+    </div>
+    <p style="max-width:300px;color:var(--muted);font-size:0.9rem;">We stock only trusted, warranty-backed brands that deliver long-lasting performance.</p>
+  </div>
+
+  <div class="brands-row">
+    <div class="brand-card">
+      <div class="brand-logo exide">EXIDE</div>
+      <div class="brand-tag">India's #1 Battery Brand</div>
+    </div>
+    <div class="brand-card">
+      <div class="brand-logo luminous">LUMINOUS</div>
+      <div class="brand-tag">Inverter & UPS Leader</div>
+    </div>
+    <div class="brand-card">
+      <div class="brand-logo livfast">LIVFAST</div>
+      <div class="brand-tag">Advanced Power Solutions</div>
+    </div>
+    <div class="brand-card" style="background:linear-gradient(135deg, var(--card), rgba(245,197,24,0.05)); border-color: rgba(245,197,24,0.3);">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.4rem;color:var(--yellow);text-align:center;line-height:1.3;">AUTHORIZED<br/>DEALER</div>
+      <div class="brand-tag">Sales + Service + Warranty</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="why" id="about">
+  <div class="why-grid">
+    <div>
+      <div class="section-label">Why Choose Us</div>
+      <h2 class="section-title">Your Trusted<br/>Power Partner</h2>
+      <div class="why-features">
+        <div class="why-feature">
+          <div class="feature-num">01</div>
+          <div class="feature-content">
+            <h4>Expert Technicians</h4>
+            <p>Experienced professionals who diagnose and service all power backup systems quickly and correctly.</p>
+          </div>
+        </div>
+        <div class="why-feature">
+          <div class="feature-num">02</div>
+          <div class="feature-content">
+            <h4>Genuine Products</h4>
+            <p>100% original, warranty-covered products from India's top battery and inverter brands.</p>
+          </div>
+        </div>
+        <div class="why-feature">
+          <div class="feature-num">03</div>
+          <div class="feature-content">
+            <h4>Full-Service Shop</h4>
+            <p>From buying a new battery to repairing your inverter — everything under one roof.</p>
+          </div>
+        </div>
+        <div class="why-feature">
+          <div class="feature-num">04</div>
+          <div class="feature-content">
+            <h4>Solar Ready</h4>
+            <p>Future-proof your home with solar energy integration and hybrid power systems.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="why-visual">
+      <div class="why-big-num">BW</div>
+      <div class="info-cards">
+        <div class="info-card">
+          <div class="info-card-icon">🕘</div>
+          <div class="info-card-text">
+            <strong>Store Hours</strong>
+            <span>09:00 AM – 08:30 PM <span class="open-badge">● Open</span></span>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon">📍</div>
+          <div class="info-card-text">
+            <strong>Location</strong>
+            <span>Shop No. 13, Majestique Manhattan,<br/>Wagholi – 412207, Pune</span>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon">📧</div>
+          <div class="info-card-text">
+            <strong>Email</strong>
+            <span><a href="mailto:batteryworld.in@gmail.com" style="color:var(--yellow);text-decoration:none;">batteryworld.in@gmail.com</a></span>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon">🌐</div>
+          <div class="info-card-text">
+            <strong>Website</strong>
+            <span><a href="https://exidecare.in" target="_blank" style="color:var(--yellow);text-decoration:none;">ExideCare.in</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="section-label">Get In Touch</div>
+  <h2 class="section-title">Visit Our Shop</h2>
+
+  <div class="contact-grid">
+    <div>
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div class="contact-info">
+          <strong>Address</strong>
+          <span>Majestique Manhattan Commercial Complex A2,<br/>Shop No. 13, Wagholi – 412207, Pune, Maharashtra</span>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">🕘</div>
+        <div class="contact-info">
+          <strong>Business Hours</strong>
+          <span>Monday – Sunday: 9:00 AM – 8:30 PM</span>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📧</div>
+        <div class="contact-info">
+          <strong>Email</strong>
+          <a href="mailto:batteryworld.in@gmail.com">batteryworld.in@gmail.com</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">🌐</div>
+        <div class="contact-info">
+          <strong>Exide Partner Portal</strong>
+          <a href="https://exidecare.in" target="_blank">https://ExideCare.in</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">⚡</div>
+        <div class="contact-info">
+          <strong>Specialization</strong>
+          <span>Tools/Equipment · Solar Energy Services</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-placeholder">
+      <div class="map-grid-bg"></div>
+      <div class="map-pin">📍</div>
+      <div class="map-address">
+        <strong>Battery World</strong>
+        Shop No. 13, Majestique Manhattan<br/>
+        Commercial Complex A2<br/>
+        Wagholi – 412207, Pune
+      </div>
+      <a href="https://maps.google.com/?q=Majestique+Manhattan+Commercial+Complex+A2+Shop+No+13+Wagholi+412207" target="_blank" class="directions-btn">
+        🗺️ Get Directions
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo nav-logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0b" stroke-width="2.5" stroke-linecap="round">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+      </svg>
+    </div>
+    <div class="logo-text">Battery <span>World</span></div>
+  </div>
+  <div class="footer-copy">© 2026 Battery World, Wagholi. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#brands">Brands</a>
+    <a href="#contact">Contact</a>
+    <a href="mailto:batteryworld.in@gmail.com">Email</a>
+  </div>
+</footer>
+
+</body>
+</html>
